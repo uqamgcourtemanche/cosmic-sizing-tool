@@ -1,0 +1,134 @@
+package util;
+
+import java.util.LinkedList;
+import java.util.List;
+
+
+public class Json {
+	
+	private abstract class JsonEntity{
+		abstract public String toString();
+		
+		protected String serializeString(String str)
+		{
+			//todo escape str
+			return "\"" + str + "\"";
+		}
+	};
+	
+	private class JsonIntEntity extends JsonEntity{
+		public JsonIntEntity(String name, int value)
+		{
+			this.name = name;
+			this.value = value;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return serializeString(name) + ":" + Integer.toString(value);
+		}
+		
+		private String name; 
+		private int value;
+	}
+	
+	private class JsonLongEntity extends JsonEntity{
+		public JsonLongEntity(String name, long value)
+		{
+			this.name = name;
+			this.value = value;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return serializeString(name) + ":" + Long.toString(value);
+		}
+		
+		private String name; 
+		private long value;
+	}
+	
+	private class JsonStringEntity extends JsonEntity{
+		public JsonStringEntity(String name, String value)
+		{
+			this.name = name;
+			this.value = value;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return serializeString(name) + ":" + serializeString(value);
+		}
+		
+		private String name; 
+		private String value;
+	}
+	
+	private class JsonJsonEntity extends JsonEntity{
+		public JsonJsonEntity(String name, Json value)
+		{
+			this.name = name;
+			this.value = value;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return serializeString(name) + ":" + value.toString();
+		}
+		
+		private String name; 
+		private Json value;
+	}
+	
+	private List<JsonEntity> entities;
+	
+	public Json(){
+		entities = new LinkedList<JsonEntity>();
+	}
+	
+	public void add(String name, int value)
+	{
+		entities.add( new JsonIntEntity(name, value) );
+	}
+	
+	public void add(String name, long value)
+	{
+		entities.add( new JsonLongEntity(name, value) );
+	}
+	
+	public void add(String name, String value)
+	{
+		entities.add( new JsonStringEntity(name, value) );
+	}
+	
+	public void add(String name, Json value)
+	{
+		entities.add( new JsonJsonEntity(name, value) );
+	}
+	
+	public String toString()
+	{
+		String str = "{";
+		boolean first = true;
+		
+		for(JsonEntity e : entities)
+		{
+			if(!first)
+			{
+				str += ",";
+			}
+			
+			str += e.toString();
+			
+			first = false;
+		}
+		
+		str += "}";
+		
+		return str;
+	}
+}

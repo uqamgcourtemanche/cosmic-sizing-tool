@@ -8,6 +8,9 @@ GET     /team                       controllers.Application.team()
 GET     /login                      controllers.Application.login()
 POST    /login                      controllers.Application.authenticate()
 
+#Project
+GET		/project/:id.json			controllers.Project.index( id, mode: Integer ?= 1)
+GET		/project/:id				controllers.Project.index( id, mode: Integer ?= 0)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
