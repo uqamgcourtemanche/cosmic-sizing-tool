@@ -1,0 +1,79 @@
+package models;
+
+import java.util.*;
+import javax.persistence.*;
+
+import com.avaje.ebean.Model;
+import play.data.format.*;
+import play.data.validation.*;
+
+import util.*;
+
+@Entity
+public class System extends Model implements JsonSerializable{
+	
+	@Id
+	private Long id;
+	
+	@Column(length = 255, nullable = false)
+    private String name;
+	
+	/* foreign key vers projet */
+	@Column(nullable = false)
+	private long project;
+
+	/* booleans */
+	@Column(nullable = false)
+	private int fAdd;
+	
+	@Column(nullable = false)
+	private int fModify;
+	
+	@Column(nullable = false)
+	private int fDelete;
+	
+	@Column(nullable = false)
+	private int fUnknown;
+	
+    public System() {
+        id=(long)1;
+		name="";
+		project=1;
+		fAdd=0;
+		fModify=0;
+		fDelete=0;
+		fUnknown=0;
+    }
+	
+	@Override
+	public String toJson()
+	{
+		Json json = new Json();
+		json.add("id", id);
+		json.add("name", name);
+		json.add("project_id", project);
+		json.add("add", fAdd);
+		json.add("modify", fModify);
+		json.add("delete", fDelete);
+		json.add("unknown", fUnknown);
+		
+		return json.toString();
+	}
+	
+	public long getId(){return id;}
+	public String getName(){return name;}
+	public void setName(String name){this.name = name;}
+	
+	public boolean getAdd(){ return fAdd == 1; }
+	public boolean getDelete(){ return fDelete == 1; }
+	public boolean getModify(){ return fModify == 1; }
+	public boolean getUnknown(){ return fUnknown == 1; }
+	
+	public void setAdd(boolean val){ fAdd = val ? 1 : 0; }
+	public void setDelete(boolean val){ fDelete = val ? 1 : 0; }
+	public void setModify(boolean val){ fModify = val ? 1 : 0; }
+	public void setUnknown(boolean val){ fUnknown = val ? 1 : 0; }
+	
+	
+	public static Finder<Long,System> find = new Finder<Long,System>(Long.class, System.class); 
+}

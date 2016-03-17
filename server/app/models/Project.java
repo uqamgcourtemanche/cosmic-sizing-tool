@@ -10,7 +10,7 @@ import play.data.validation.*;
 import util.*;
 
 @Entity
-public class Project extends Model {
+public class Project extends Model implements JsonSerializable{
 	
 	@Id
 	private Long id;
@@ -41,6 +41,7 @@ public class Project extends Model {
 		projectType = 0;
     }
 	
+	@Override
 	public String toJson()
 	{
 		Json json = new Json();
@@ -48,6 +49,7 @@ public class Project extends Model {
 		json.add("name", name);
 		json.add("type", getProjectTypeName());
 		json.add("timeStamp", timeStamp);
+		json.add("systems", getSystems());
 		
 		return json.toString();
 	}
@@ -71,6 +73,11 @@ public class Project extends Model {
 		}
 		
 		this.projectType = projectType;
+	}
+	
+	public List<System> getSystems()
+	{
+		return System.find.where().eq("project", id).findList();
 	}
 	
 	public static Finder<Long,Project> find = new Finder<Long,Project>(Long.class, Project.class); 

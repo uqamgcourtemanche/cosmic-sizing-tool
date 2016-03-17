@@ -14,15 +14,14 @@ public class Project extends Controller {
 	private final static int MODE_HTML=0;
 	private final static int MODE_JSON=1;
 
-    public Result index(String id, int mode) {
+    public Result edit(String id, int mode) {
+
 		try{
 			Long lId = Long.parseLong(id);
 			models.Project p = models.Project.find.byId(lId);
 			
 			if(p == null)
-				throw new RuntimeException("No project correspond to id " + id);
-			
-			System.out.println("mode = " + Integer.toString(mode));
+				throw new RuntimeException("No project corresponds to id " + id);
 			
 			if( mode == MODE_HTML )
 			{
@@ -39,6 +38,34 @@ public class Project extends Controller {
 			return internalServerError(e.getMessage());
 		}
     }
+	
+	public Result list()
+	{
+		try{
+			java.util.List<models.Project> p = models.Project.find.all();
+			return ok(views.html.project.list.render(p));
+			
+		} catch(Exception e)
+		{
+			return internalServerError(e.getMessage());
+		}
+	}
+	
+	public Result system(String id) {
+		try{
+			Long lId = Long.parseLong(id);
+			models.System s = models.System.find.byId(lId);
+			
+			if(s == null)
+				throw new RuntimeException("No system corresponds to id " + id);
+			
+			return ok(s.toJson());
+			
+		} catch(Exception e)
+		{
+			return internalServerError(e.getMessage());
+		}
+	}
     
 }
 

@@ -3,7 +3,6 @@ package util;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class Json {
 	
 	private abstract class JsonEntity{
@@ -84,6 +83,35 @@ public class Json {
 		private Json value;
 	}
 	
+	private class JsonListEntity extends JsonEntity{
+		public JsonListEntity(String name, List<? extends JsonSerializable> value)
+		{
+			this.name = name;
+			this.value = value;
+		}
+		
+		@Override
+		public String toString()
+		{
+			String str = serializeString(name) + ":" + "[";
+			boolean first = true;
+			
+			for( JsonSerializable js : value )
+			{
+				if(!first) str += ",";
+				str += js.toJson();
+				first = false;
+			}
+			
+			str += "]";
+			
+			return str;
+		}
+		
+		private String name; 
+		private List<? extends JsonSerializable> value;
+	}
+	
 	private List<JsonEntity> entities;
 	
 	public Json(){
@@ -108,6 +136,11 @@ public class Json {
 	public void add(String name, Json value)
 	{
 		entities.add( new JsonJsonEntity(name, value) );
+	}
+	
+	public void add(String name, List<? extends JsonSerializable> value)
+	{
+		entities.add( new JsonListEntity(name, value) );
 	}
 	
 	public String toString()

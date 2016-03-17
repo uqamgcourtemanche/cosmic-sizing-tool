@@ -9,8 +9,13 @@ GET     /login                      controllers.Application.login()
 POST    /login                      controllers.Application.authenticate()
 
 #Project
-GET		/project/:id.json			controllers.Project.index( id, mode: Integer ?= 1)
-GET		/project/:id				controllers.Project.index( id, mode: Integer ?= 0)
+GET		/projects/:id.json			controllers.Project.edit( id, mode: Integer ?= 1)
+GET		/projects/:id				controllers.Project.edit( id, mode: Integer ?= 0)
+GET		/projects/					controllers.Project.list()
+GET		/projects					controllers.Project.list()
+
+#Paths de debug, ne devrait jamais etre utilise seul
+GET		/systems/:id				controllers.Project.system( id )
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
