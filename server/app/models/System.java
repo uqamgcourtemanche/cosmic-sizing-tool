@@ -56,6 +56,7 @@ public class System extends Model implements JsonSerializable{
 		json.add("modify", fModify);
 		json.add("delete", fDelete);
 		json.add("unknown", fUnknown);
+		json.add("layers", getLayers());
 		
 		return json.toString();
 	}
@@ -74,6 +75,10 @@ public class System extends Model implements JsonSerializable{
 	public void setModify(boolean val){ fModify = val ? 1 : 0; }
 	public void setUnknown(boolean val){ fUnknown = val ? 1 : 0; }
 	
+	public List<Layer> getLayers()
+	{
+		return Layer.find.where().eq("system", id).findList();
+	}
 	
 	public static Finder<Long,System> find = new Finder<Long,System>(Long.class, System.class); 
 }
