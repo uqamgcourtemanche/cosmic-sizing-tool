@@ -8,5 +8,5 @@ target
 /RUNNING_PID
 
 .sbtserver/
-project/
+/server/project/
 
