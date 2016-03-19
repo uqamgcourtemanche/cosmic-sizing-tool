@@ -41,12 +41,12 @@ public class DataGroup extends Model implements JsonSerializable{
 	@Column(nullable = false)
 	private int write;
 	
-    public DataGroup() {
-        id=(long)1;
+    public DataGroup(long parentId) {
+        id=null;
 		name="";
 		movement="";
 		comment="";
-		process=1;
+		process=parentId;
 		entry=0;
 		exit=0;
 		read=0;

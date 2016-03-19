@@ -235,6 +235,114 @@ public class DataEntry extends Controller {
 		return ok(json.toString());
 	}
 	
+	public Result createDataGroup(String parentId)
+	{
+		Long lId;
+		
+		try
+		{
+			lId = Long.parseLong(parentId);
+		}
+		catch(Exception e)
+		{
+			return badRequest("Id is of an invalid value.");
+		}
+		
+		models.Process proc = models.Process.find.byId(lId);
+		if( proc == null )
+			return badRequest("Id is of an invalid value.");
+		
+		models.DataGroup dg = new models.DataGroup(lId);
+		dg.save();
+		
+		return ok(dg.toJson());
+	}
+	
+	public Result updateDataGroup(String id)
+	{
+		/* The values */
+		long lId;
+		String name = "";
+		String movement = "";
+		String comment = "";
+		String entry = "";
+		String exit = "";
+		String read = "";
+		String write = "";
+			
+		/* if Json present ... */
+		
+		
+		/* else we take the form elements */
+		
+		{
+			DynamicForm form = form().bindFromRequest();
+			name = form.get("name");
+			movement = form.get("movement");
+			comment = form.get("comment");
+			entry = form.get("entry");
+			exit = form.get("exit");
+			read = form.get("read");
+			write = form.get("write");
+		}
+		
+		boolean fEntry = entry != null && entry.equals("1");
+		boolean fExit = exit != null &&  exit.equals("1");
+		boolean fRead = read != null &&  read.equals("1");
+		boolean fWrite = write != null &&  write.equals("1");
+		
+		try
+		{
+			lId = Long.parseLong(id);
+		}
+		catch(Exception e)
+		{
+			return badRequest("Id is of an invalid value.");
+		}
+		
+		models.DataGroup dg = models.DataGroup.find.byId(lId);
+		if( dg == null )
+			return badRequest("Id does not correspond to any DataGroup");
+			
+		dg.setName(name);
+		dg.setMovement(movement);
+		dg.setComment(comment);
+		dg.setEntry(fEntry);
+		dg.setExit(fExit);
+		dg.setRead(fRead);
+		dg.setWrite(fWrite);
+		dg.save();
+		
+		return ok(dg.toJson());
+	}
+	
+	public Result getDataGroup(String id)
+	{
+		/* The values */
+		long lId;
+		try
+		{
+			lId = Long.parseLong(id);
+		}
+		catch(Exception e)
+		{
+			return badRequest("Id is of an invalid value.");
+		}
+		
+		models.DataGroup dg = models.DataGroup.find.byId(lId);
+		return ok(dg.toJson());
+	}
+	
+	public Result getAllDataGroups()
+	{
+		List<models.DataGroup> dgs = models.DataGroup.find.all();
+		
+		JsonBuilder json = new JsonBuilder();
+		json.add("data_groups", dgs);
+		
+		return ok(json.toString());
+	}
+	
     public Result edit(String id, int mode) {
 		try{
 			Long lId = Long.parseLong(id);

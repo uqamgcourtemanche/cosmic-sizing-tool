@@ -19,6 +19,9 @@ GET		/projects/:id.json			controllers.DataEntry.edit( id, mode: Integer ?= 1)
 GET /test/laurier								controllers.DataEntry.test_laurier()
 GET /test/guillaume								controllers.DataEntry.test_guillaume()
 
+#####TODO DELETE
+#####TODO JSON
+
 # API pour systeme
 POST	/api/systems/new/:project_id			controllers.DataEntry.createSystem(project_id)
 POST	/api/systems/:id						controllers.DataEntry.updateSystem(id)
@@ -32,9 +35,10 @@ GET		/api/process/:id						controllers.DataEntry.getProcess(id)
 GET		/api/process							controllers.DataEntry.getAllProcess()
 
 # API pour data group
-#POST	/api/datagroups/new/:process_id			controllers.DataEntry.createDataGroup(process_id)
-#POST	/api/datagroups/:id						controllers.DataEntry.updateDataGroup(id)
-#GET	/api/datagroups/:id						controllers.DataEntry.getDataGroup(id)
+POST	/api/datagroups/new/:process_id			controllers.DataEntry.createDataGroup(process_id)
+POST	/api/datagroups/:id						controllers.DataEntry.updateDataGroup(id)
+GET		/api/datagroups/:id						controllers.DataEntry.getDataGroup(id)
+GET		/api/datagroups							controllers.DataEntry.getAllDataGroups()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
