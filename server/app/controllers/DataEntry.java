@@ -187,22 +187,46 @@ public class DataEntry extends Controller {
 		models.Process proc = new models.Process(sys.getLayers().get(0).getId());
 		proc.save();
 		
+		DynamicForm form = form().bindFromRequest();
+		if(form.get("name") != null)
+			updateProcessWithForm(proc, form);
+		
 		return ok(proc.toJson());
 	}
 	
 	public Result updateProcess(String id)
 	{
 		/* The values */
-		long lId;
+		long lId;			
+		DynamicForm form = form().bindFromRequest();
+			
+		try
+		{
+			lId = Long.parseLong(id);
+		}
+		catch(Exception e)
+		{
+			return badRequest("Id is of an invalid value.");
+		}
+		
+		models.Process proc = models.Process.find.byId(lId);
+		if( proc == null )
+			return badRequest("Id does not correspond to any Process");
+			
+		updateProcessWithForm(proc, form);
+		
+		return ok(proc.toJson());
+	}
+	
+	private void updateProcessWithForm(models.Process proc, DynamicForm form)
+	{
 		String name = "";
 		String qualityRating = "";
 		String add = "";
 		String modify = "";
 		String delete = "";
 		String unknown = "";
-			
-		DynamicForm form = form().bindFromRequest();
-			
+		
 		/* if Json present ... */
 		if( form.get("json") != null)
 		{
@@ -230,19 +254,6 @@ public class DataEntry extends Controller {
 		boolean fDelete = delete != null &&  delete.equals("1");
 		boolean fUnknown = unknown != null &&  unknown.equals("1");
 		
-		try
-		{
-			lId = Long.parseLong(id);
-		}
-		catch(Exception e)
-		{
-			return badRequest("Id is of an invalid value.");
-		}
-		
-		models.Process proc = models.Process.find.byId(lId);
-		if( proc == null )
-			return badRequest("Id does not correspond to any Process");
-			
 		proc.setName(name);
 		proc.setAdd(fAdd);
 		proc.setModify(fModify);
@@ -250,8 +261,6 @@ public class DataEntry extends Controller {
 		proc.setUnknown(fUnknown);
 		proc.setQualityRating(qualityRating);
 		proc.save();
-		
-		return ok(proc.toJson());
 	}
 	
 	public Result getProcess(String id)
