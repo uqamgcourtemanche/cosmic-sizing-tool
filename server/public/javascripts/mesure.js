@@ -25,7 +25,7 @@ app.controller("TreeController", function($scope, $http) {
 		
 		var params = {
 			name: data.name,
-			entry: !!(data.movement.toUpperCase().indexOf("E")>-1),
+			entry: !! (data.movement.toUpperCase().indexOf("E")>-1),
 			exit: !!(data.movement.toUpperCase().indexOf("X")>-1),
 			read: !!(data.movement.toUpperCase().indexOf("R")>-1),
 			write: !!(data.movement.toUpperCase().indexOf("W")>-1),		
