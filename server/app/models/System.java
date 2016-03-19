@@ -46,6 +46,18 @@ public class System extends Model implements JsonSerializable{
     }
 	
 	@Override
+	public void save()
+	{
+		super.save();
+		
+		if( getLayers().size() == 0 )
+		{
+			models.Layer l = new Layer(id);
+			l.save();
+		}
+	}
+	
+	@Override
 	public String toJson()
 	{
 		JsonBuilder json = new JsonBuilder();
