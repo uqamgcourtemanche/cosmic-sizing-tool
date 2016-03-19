@@ -195,6 +195,7 @@ public class DataEntry extends Controller {
 		/* The values */
 		long lId;
 		String name = "";
+		String qualityRating = "";
 		String add = "";
 		String modify = "";
 		String delete = "";
@@ -211,6 +212,7 @@ public class DataEntry extends Controller {
 			modify = json.findPath("modify").textValue();
 			delete = json.findPath("delete").textValue();
 			unknown = json.findPath("unknown").textValue();
+			qualityRating = json.findPath("quality").textValue();
 		}
 		/* else we take the form elements */
 		else
@@ -220,6 +222,7 @@ public class DataEntry extends Controller {
 			modify = form.get("modify");
 			delete = form.get("delete");
 			unknown = form.get("unknown");
+			qualityRating = form.get("quality");
 		}
 		
 		boolean fAdd = add != null && add.equals("1");
@@ -245,6 +248,7 @@ public class DataEntry extends Controller {
 		proc.setModify(fModify);
 		proc.setDelete(fDelete);
 		proc.setUnknown(fUnknown);
+		proc.setQualityRating(qualityRating);
 		proc.save();
 		
 		return ok(proc.toJson());
@@ -328,7 +332,6 @@ public class DataEntry extends Controller {
 		/* The values */
 		long lId;
 		String name = "";
-		String movement = "";
 		String comment = "";
 		String entry = "";
 		String exit = "";
@@ -342,7 +345,6 @@ public class DataEntry extends Controller {
 		{
 			JsonNode json = Json.parse(form.get("json"));
 			name = json.findPath("name").textValue();
-			movement = json.findPath("movement").textValue();
 			comment = json.findPath("comment").textValue();
 			entry = json.findPath("entry").textValue();
 			exit = json.findPath("exit").textValue();
@@ -353,7 +355,6 @@ public class DataEntry extends Controller {
 		else
 		{
 			name = form.get("name");
-			movement = form.get("movement");
 			comment = form.get("comment");
 			entry = form.get("entry");
 			exit = form.get("exit");
@@ -380,7 +381,6 @@ public class DataEntry extends Controller {
 			return badRequest("Id does not correspond to any DataGroup");
 			
 		dg.setName(name);
-		dg.setMovement(movement);
 		dg.setComment(comment);
 		dg.setEntry(fEntry);
 		dg.setExit(fExit);

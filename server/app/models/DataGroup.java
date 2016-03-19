@@ -19,9 +19,6 @@ public class DataGroup extends Model implements JsonSerializable{
     private String name;
 	
 	@Column(length = 255, nullable = false)
-    private String movement;
-	
-	@Column(length = 255, nullable = false)
     private String comment;
 	
 	/* foreign key vers projet */
@@ -44,7 +41,6 @@ public class DataGroup extends Model implements JsonSerializable{
     public DataGroup(long parentId) {
         id=null;
 		name="";
-		movement="";
 		comment="";
 		process=parentId;
 		entry=0;
@@ -59,7 +55,6 @@ public class DataGroup extends Model implements JsonSerializable{
 		JsonBuilder json = new JsonBuilder();
 		json.add("id", id);
 		json.add("name", name);
-		json.add("movement", movement);
 		json.add("comment", comment);
 		json.add("process_id", process);
 		json.add("entry", entry);
@@ -73,9 +68,6 @@ public class DataGroup extends Model implements JsonSerializable{
 	public long getId(){return id;}
 	public String getName(){return name;}
 	public void setName(String name){this.name = name;}
-	
-	public String getMovement(){return movement;}
-	public void setMovement(String movement){this.movement = movement;}
 	
 	public String getComment(){return comment;}
 	public void setComment(String comment){this.comment = comment;}

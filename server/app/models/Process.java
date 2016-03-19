@@ -18,6 +18,9 @@ public class Process extends Model implements JsonSerializable{
 	@Column(length = 255, nullable = false)
     private String name;
 	
+	@Column(length = 1, nullable = false)
+    private String qualityRating;
+	
 	/* foreign key vers layer */
 	@Column(nullable = false)
 	private long layer;
@@ -37,6 +40,7 @@ public class Process extends Model implements JsonSerializable{
 	
     public Process(long parentId) {
         id=null;
+		qualityRating = "";
 		name="";
 		layer=parentId;
 		fAdd=0;
@@ -56,7 +60,9 @@ public class Process extends Model implements JsonSerializable{
 		json.add("modify", fModify);
 		json.add("delete", fDelete);
 		json.add("unknown", fUnknown);
+		json.add("quality", getQualityRating());
 		json.add("data_groups", getDataGroup());
+		
 		
 		return json.toString();
 	}
@@ -83,6 +89,30 @@ public class Process extends Model implements JsonSerializable{
 	public void setDelete(boolean val){ fDelete = val ? 1 : 0; }
 	public void setModify(boolean val){ fModify = val ? 1 : 0; }
 	public void setUnknown(boolean val){ fUnknown = val ? 1 : 0; }
+	
+	public void setQualityRating(String qr){
+		if(qr.length() == 0) throw new RuntimeException("Quality rating cannot be empty");
+		if(qr.length() > 1) throw new RuntimeException("Quality rating must be a single letter between 'a' and 'e'");
+		switch(qr.charAt(0))
+		{
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+				qualityRating = qr;
+				break;
+			default:
+				throw new RuntimeException("Quality rating must be a single letter between 'a' and 'e'");
+		}
+	}
+	
+	public String getQualityRating(){ return qualityRating; }
 	
 	public List<DataGroup> getDataGroup()
 	{
