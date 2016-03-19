@@ -14,6 +14,35 @@ public class DataEntry extends Controller {
 	private final static int MODE_HTML=0;
 	private final static int MODE_JSON=1;
 
+	public Result test_laurier()
+	{
+		return ok(mesure.render());
+	}
+	
+	public Result createSystem(String project_id)
+	{
+		/*debug*/
+		try
+		{
+			models.Project p = new models.Project();
+			p.save();
+		}
+		catch(Exception e)
+		{
+			
+		}
+		/*debug*/
+	
+		try{
+			Long lId = Long.parseLong(project_id);
+			
+			return ok(models.System.createForParentId(lId).toJson());
+		} catch(Exception e)
+		{
+			return internalServerError(e.getMessage());
+		}
+	}
+	
     public Result edit(String id, int mode) {
 	
 		try{
@@ -53,21 +82,6 @@ public class DataEntry extends Controller {
 		{
 			return internalServerError(e.getMessage());
 		}
-	}
-	
-	public Result update(String id) {
-		Long lId = Long.parseLong(id);
-		models.System s = models.System.find.byId(lId);
-		
-		DynamicForm form = form().bindFromRequest();
-		String nameValue = form.get("name");
-		
-		java.lang.System.out.println(nameValue);
-		
-		s.setName(nameValue);
-		s.save();
-		
-		return ok(views.html.project.test_form_system.render(s));
 	}
     
 }

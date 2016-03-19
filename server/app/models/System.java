@@ -35,10 +35,10 @@ public class System extends Model implements JsonSerializable{
 	@Column(nullable = false)
 	private int fUnknown;
 	
-    public System() {
-        id=(long)1;
+    public System(long parentId) {
+        id=null;
 		name="";
-		project=1;
+		project=parentId;
 		fAdd=0;
 		fModify=0;
 		fDelete=0;
@@ -78,6 +78,19 @@ public class System extends Model implements JsonSerializable{
 	public List<Layer> getLayers()
 	{
 		return Layer.find.where().eq("system", id).findList();
+	}
+	
+	public static System createForParentId(long parentId)
+	{
+		models.Project p = models.Project.find.byId(parentId);
+		
+		if(p == null)
+			throw new RuntimeException("No project corresponds to id " + Long.toString(parentId));
+			
+		models.System sys = new System(parentId);
+		sys.save();
+		
+		return sys;
 	}
 	
 	public static Finder<Long,System> find = new Finder<Long,System>(Long.class, System.class); 

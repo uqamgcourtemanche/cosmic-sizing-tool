@@ -15,10 +15,23 @@ GET		/projects/edit/:id			controllers.DataEntry.edit( id, mode: Integer ?= 0)
 GET		/projects/:id.json			controllers.DataEntry.edit( id, mode: Integer ?= 1)
 
 #API
-#POST	/projects/:project_id/system/new	controllers.DataEntry.createSystem(project_id)
-#POST	/projects/:project_id/system/:id	controllers.DataEntry.createSystem(project_id)
 
+GET /test/laurier								controllers.DataEntry.test_laurier()
 
+# API pour systeme
+#POST	/api/systems/new/:project_id			controllers.DataEntry.createSystem(project_id)
+#POST	/api/systems/:id						controllers.DataEntry.updateSystem(id)
+#GET	/api/systems/:id						controllers.DataEntry.getSystem(id)
+
+# API pour Process
+#POST	/api/process/new/:system_id				controllers.DataEntry.createProcess(project_id)
+#POST	/api/process/:id						controllers.DataEntry.updateProcess(id)
+#GET	/api/process/:id						controllers.DataEntry.getProcess(id)
+
+# API pour data group
+#POST	/api/datagroups/new/:process_id			controllers.DataEntry.createDataGroup(project_id)
+#POST	/api/datagroups/:id						controllers.DataEntry.updateDataGroup(id)
+#GET	/api/datagroups/:id						controllers.DataEntry.getDataGroup(id)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
