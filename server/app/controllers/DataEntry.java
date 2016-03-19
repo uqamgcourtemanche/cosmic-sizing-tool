@@ -86,10 +86,10 @@ public class DataEntry extends Controller {
 			unknown = form.get("unknown");
 		}
 		
-		boolean fAdd = add != null && add.equals("1");
-		boolean fModify = modify != null && modify.equals("1");
-		boolean fDelete = delete != null && delete.equals("1");
-		boolean fUnknown = unknown != null && unknown.equals("1");
+		boolean fAdd = add != null && add.equals("true");
+		boolean fModify = modify != null && modify.equals("true");
+		boolean fDelete = delete != null && delete.equals("true");
+		boolean fUnknown = unknown != null && unknown.equals("true");
 		
 		try
 		{
@@ -187,22 +187,46 @@ public class DataEntry extends Controller {
 		models.Process proc = new models.Process(sys.getLayers().get(0).getId());
 		proc.save();
 		
+		DynamicForm form = form().bindFromRequest();
+		if(form.get("name") != null)
+			updateProcessWithForm(proc, form);
+		
 		return ok(proc.toJson());
 	}
 	
 	public Result updateProcess(String id)
 	{
 		/* The values */
-		long lId;
+		long lId;			
+		DynamicForm form = form().bindFromRequest();
+			
+		try
+		{
+			lId = Long.parseLong(id);
+		}
+		catch(Exception e)
+		{
+			return badRequest("Id is of an invalid value.");
+		}
+		
+		models.Process proc = models.Process.find.byId(lId);
+		if( proc == null )
+			return badRequest("Id does not correspond to any Process");
+			
+		updateProcessWithForm(proc, form);
+		
+		return ok(proc.toJson());
+	}
+	
+	private void updateProcessWithForm(models.Process proc, DynamicForm form)
+	{
 		String name = "";
 		String qualityRating = "";
 		String add = "";
 		String modify = "";
 		String delete = "";
 		String unknown = "";
-			
-		DynamicForm form = form().bindFromRequest();
-			
+		
 		/* if Json present ... */
 		if( form.get("json") != null)
 		{
@@ -225,24 +249,11 @@ public class DataEntry extends Controller {
 			qualityRating = form.get("quality");
 		}
 		
-		boolean fAdd = add != null && add.equals("1");
-		boolean fModify = modify != null &&  modify.equals("1");
-		boolean fDelete = delete != null &&  delete.equals("1");
-		boolean fUnknown = unknown != null &&  unknown.equals("1");
+		boolean fAdd = add != null && add.equals("true");
+		boolean fModify = modify != null &&  modify.equals("true");
+		boolean fDelete = delete != null &&  delete.equals("true");
+		boolean fUnknown = unknown != null &&  unknown.equals("true");
 		
-		try
-		{
-			lId = Long.parseLong(id);
-		}
-		catch(Exception e)
-		{
-			return badRequest("Id is of an invalid value.");
-		}
-		
-		models.Process proc = models.Process.find.byId(lId);
-		if( proc == null )
-			return badRequest("Id does not correspond to any Process");
-			
 		proc.setName(name);
 		proc.setAdd(fAdd);
 		proc.setModify(fModify);
@@ -250,8 +261,6 @@ public class DataEntry extends Controller {
 		proc.setUnknown(fUnknown);
 		proc.setQualityRating(qualityRating);
 		proc.save();
-		
-		return ok(proc.toJson());
 	}
 	
 	public Result getProcess(String id)
@@ -362,10 +371,10 @@ public class DataEntry extends Controller {
 			write = form.get("write");
 		}
 		
-		boolean fEntry = entry != null && entry.equals("1");
-		boolean fExit = exit != null &&  exit.equals("1");
-		boolean fRead = read != null &&  read.equals("1");
-		boolean fWrite = write != null &&  write.equals("1");
+		boolean fEntry = entry != null && entry.equals("true");
+		boolean fExit = exit != null &&  exit.equals("true");
+		boolean fRead = read != null &&  read.equals("true");
+		boolean fWrite = write != null &&  write.equals("true");
 		
 		dg.setName(name);
 		dg.setComment(comment);
