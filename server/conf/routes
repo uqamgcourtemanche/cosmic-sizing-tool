@@ -26,12 +26,13 @@ GET		/api/systems/:id						controllers.DataEntry.getSystem(id)
 GET		/api/systems							controllers.DataEntry.getAllSystems()
 
 # API pour Process
-#POST	/api/process/new/:system_id				controllers.DataEntry.createProcess(project_id)
-#POST	/api/process/:id						controllers.DataEntry.updateProcess(id)
-#GET	/api/process/:id						controllers.DataEntry.getProcess(id)
+POST	/api/process/new/:system_id				controllers.DataEntry.createProcess(system_id)
+POST	/api/process/:id						controllers.DataEntry.updateProcess(id)
+GET		/api/process/:id						controllers.DataEntry.getProcess(id)
+GET		/api/process							controllers.DataEntry.getAllProcess()
 
 # API pour data group
-#POST	/api/datagroups/new/:process_id			controllers.DataEntry.createDataGroup(project_id)
+#POST	/api/datagroups/new/:process_id			controllers.DataEntry.createDataGroup(process_id)
 #POST	/api/datagroups/:id						controllers.DataEntry.updateDataGroup(id)
 #GET	/api/datagroups/:id						controllers.DataEntry.getDataGroup(id)
 

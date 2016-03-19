@@ -35,10 +35,10 @@ public class Process extends Model implements JsonSerializable{
 	private int fUnknown;;
 
 	
-    public Process() {
-        id=(long)1;
+    public Process(long parentId) {
+        id=null;
 		name="";
-		layer=1;
+		layer=parentId;
 		fAdd=0;
 		fModify=0;
 		fDelete=0;
