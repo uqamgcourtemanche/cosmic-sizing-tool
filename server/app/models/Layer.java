@@ -23,10 +23,10 @@ public class Layer extends Model implements JsonSerializable{
 	private long system;
 
 	
-    public Layer() {
-        id=(long)1;
+    public Layer(long parentId) {
+        id=null;
 		name="";
-		system=1;
+		system=parentId;
     }
 	
 	@Override
