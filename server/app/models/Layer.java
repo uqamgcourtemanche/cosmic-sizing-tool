@@ -32,12 +32,18 @@ public class Layer extends Model implements JsonSerializable{
 	@Override
 	public String toJson()
 	{
-		Json json = new Json();
+		JsonBuilder json = new JsonBuilder();
 		json.add("id", id);
 		json.add("name", name);
 		json.add("system_id", system);
+		json.add("process", getProcess());
 		
 		return json.toString();
+	}
+	
+	public List<Process> getProcess()
+	{
+		return Process.find.where().eq("layer", id).findList();
 	}
 	
 	public long getId(){return id;}

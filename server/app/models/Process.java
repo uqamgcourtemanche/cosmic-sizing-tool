@@ -10,7 +10,7 @@ import play.data.validation.*;
 import util.*;
 
 @Entity
-public class System extends Model implements JsonSerializable{
+public class Process extends Model implements JsonSerializable{
 	
 	@Id
 	private Long id;
@@ -18,11 +18,10 @@ public class System extends Model implements JsonSerializable{
 	@Column(length = 255, nullable = false)
     private String name;
 	
-	/* foreign key vers projet */
+	/* foreign key vers layer */
 	@Column(nullable = false)
-	private long project;
-
-	/* booleans */
+	private long layer;
+	
 	@Column(nullable = false)
 	private int fAdd;
 	
@@ -33,12 +32,13 @@ public class System extends Model implements JsonSerializable{
 	private int fDelete;
 	
 	@Column(nullable = false)
-	private int fUnknown;
+	private int fUnknown;;
+
 	
-    public System() {
+    public Process() {
         id=(long)1;
 		name="";
-		project=1;
+		layer=1;
 		fAdd=0;
 		fModify=0;
 		fDelete=0;
@@ -51,12 +51,12 @@ public class System extends Model implements JsonSerializable{
 		JsonBuilder json = new JsonBuilder();
 		json.add("id", id);
 		json.add("name", name);
-		json.add("project_id", project);
+		json.add("layer_id", layer);
 		json.add("add", fAdd);
 		json.add("modify", fModify);
 		json.add("delete", fDelete);
 		json.add("unknown", fUnknown);
-		json.add("layers", getLayers());
+		json.add("data_groups", getDataGroup());
 		
 		return json.toString();
 	}
@@ -75,10 +75,10 @@ public class System extends Model implements JsonSerializable{
 	public void setModify(boolean val){ fModify = val ? 1 : 0; }
 	public void setUnknown(boolean val){ fUnknown = val ? 1 : 0; }
 	
-	public List<Layer> getLayers()
+	public List<DataGroup> getDataGroup()
 	{
-		return Layer.find.where().eq("system", id).findList();
+		return DataGroup.find.where().eq("process", id).findList();
 	}
 	
-	public static Finder<Long,System> find = new Finder<Long,System>(Long.class, System.class); 
+	public static Finder<Long,Process> find = new Finder<Long,Process>(Long.class, Process.class); 
 }

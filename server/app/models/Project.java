@@ -44,7 +44,7 @@ public class Project extends Model implements JsonSerializable{
 	@Override
 	public String toJson()
 	{
-		Json json = new Json();
+		JsonBuilder json = new JsonBuilder();
 		json.add("id", id);
 		json.add("name", name);
 		json.add("type", getProjectTypeName());

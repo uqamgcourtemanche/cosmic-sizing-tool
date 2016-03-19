@@ -9,13 +9,13 @@ import models.*;
 import play.data.Form;
 import static play.data.Form.*;
 
-public class Project extends Controller {
+public class DataEntry extends Controller {
 
 	private final static int MODE_HTML=0;
 	private final static int MODE_JSON=1;
 
     public Result edit(String id, int mode) {
-
+	
 		try{
 			Long lId = Long.parseLong(id);
 			models.Project p = models.Project.find.byId(lId);
@@ -38,19 +38,7 @@ public class Project extends Controller {
 			return internalServerError(e.getMessage());
 		}
     }
-	
-	public Result list()
-	{
-		try{
-			java.util.List<models.Project> p = models.Project.find.all();
-			return ok(views.html.project.list.render(p));
-			
-		} catch(Exception e)
-		{
-			return internalServerError(e.getMessage());
-		}
-	}
-	
+		
 	public Result system(String id) {
 		try{
 			Long lId = Long.parseLong(id);
@@ -59,12 +47,27 @@ public class Project extends Controller {
 			if(s == null)
 				throw new RuntimeException("No system corresponds to id " + id);
 			
-			return ok(s.toJson());
+			return ok(views.html.project.test_form_system.render(s));
 			
 		} catch(Exception e)
 		{
 			return internalServerError(e.getMessage());
 		}
+	}
+	
+	public Result update(String id) {
+		Long lId = Long.parseLong(id);
+		models.System s = models.System.find.byId(lId);
+		
+		DynamicForm form = form().bindFromRequest();
+		String nameValue = form.get("name");
+		
+		java.lang.System.out.println(nameValue);
+		
+		s.setName(nameValue);
+		s.save();
+		
+		return ok(views.html.project.test_form_system.render(s));
 	}
     
 }

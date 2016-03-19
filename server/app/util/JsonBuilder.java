@@ -3,7 +3,7 @@ package util;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Json {
+public class JsonBuilder {
 	
 	private abstract class JsonEntity{
 		abstract public String toString();
@@ -67,7 +67,7 @@ public class Json {
 	}
 	
 	private class JsonJsonEntity extends JsonEntity{
-		public JsonJsonEntity(String name, Json value)
+		public JsonJsonEntity(String name, JsonBuilder value)
 		{
 			this.name = name;
 			this.value = value;
@@ -80,7 +80,7 @@ public class Json {
 		}
 		
 		private String name; 
-		private Json value;
+		private JsonBuilder value;
 	}
 	
 	private class JsonListEntity extends JsonEntity{
@@ -114,7 +114,7 @@ public class Json {
 	
 	private List<JsonEntity> entities;
 	
-	public Json(){
+	public JsonBuilder(){
 		entities = new LinkedList<JsonEntity>();
 	}
 	
@@ -133,7 +133,7 @@ public class Json {
 		entities.add( new JsonStringEntity(name, value) );
 	}
 	
-	public void add(String name, Json value)
+	public void add(String name, JsonBuilder value)
 	{
 		entities.add( new JsonJsonEntity(name, value) );
 	}
