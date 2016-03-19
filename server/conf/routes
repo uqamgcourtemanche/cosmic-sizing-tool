@@ -9,13 +9,17 @@ GET     /login                      controllers.Application.login()
 POST    /login                      controllers.Application.authenticate()
 
 # Project
+GET		/projects/edit/:id			controllers.DataEntry.edit( id, mode: Integer ?= 0)
+
 # TO DELETE
 GET		/projects/:id.json			controllers.DataEntry.edit( id, mode: Integer ?= 1)
-GET		/projects/:id				controllers.DataEntry.edit( id, mode: Integer ?= 0)
 
-#Paths de debug, ne devrait jamais etre utilise seul
-GET		/systems/:id				controllers.DataEntry.system( id )
-POST	/systems/:id				controllers.DataEntry.update( id )
+#API
+#POST	/projects/:project_id/system/new	controllers.DataEntry.createSystem(project_id)
+#POST	/projects/:project_id/system/:id	controllers.DataEntry.createSystem(project_id)
+
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET		/bootstrap/*file			controllers.Assets.versioned(path="/public/bootstrap", file: Asset)
