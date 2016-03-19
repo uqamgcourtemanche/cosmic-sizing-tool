@@ -86,10 +86,10 @@ public class DataEntry extends Controller {
 			unknown = form.get("unknown");
 		}
 		
-		boolean fAdd = add != null && add.equals("1");
-		boolean fModify = modify != null && modify.equals("1");
-		boolean fDelete = delete != null && delete.equals("1");
-		boolean fUnknown = unknown != null && unknown.equals("1");
+		boolean fAdd = add != null && add.equals("true");
+		boolean fModify = modify != null && modify.equals("true");
+		boolean fDelete = delete != null && delete.equals("true");
+		boolean fUnknown = unknown != null && unknown.equals("true");
 		
 		try
 		{
@@ -249,10 +249,10 @@ public class DataEntry extends Controller {
 			qualityRating = form.get("quality");
 		}
 		
-		boolean fAdd = add != null && add.equals("1");
-		boolean fModify = modify != null &&  modify.equals("1");
-		boolean fDelete = delete != null &&  delete.equals("1");
-		boolean fUnknown = unknown != null &&  unknown.equals("1");
+		boolean fAdd = add != null && add.equals("true");
+		boolean fModify = modify != null &&  modify.equals("true");
+		boolean fDelete = delete != null &&  delete.equals("true");
+		boolean fUnknown = unknown != null &&  unknown.equals("true");
 		
 		proc.setName(name);
 		proc.setAdd(fAdd);
@@ -371,10 +371,10 @@ public class DataEntry extends Controller {
 			write = form.get("write");
 		}
 		
-		boolean fEntry = entry != null && entry.equals("1");
-		boolean fExit = exit != null &&  exit.equals("1");
-		boolean fRead = read != null &&  read.equals("1");
-		boolean fWrite = write != null &&  write.equals("1");
+		boolean fEntry = entry != null && entry.equals("true");
+		boolean fExit = exit != null &&  exit.equals("true");
+		boolean fRead = read != null &&  read.equals("true");
+		boolean fWrite = write != null &&  write.equals("true");
 		
 		dg.setName(name);
 		dg.setComment(comment);
