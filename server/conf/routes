@@ -14,14 +14,15 @@ GET		/projects/edit/:id			controllers.DataEntry.edit( id, mode: Integer ?= 0)
 # TO DELETE
 GET		/projects/:id.json			controllers.DataEntry.edit( id, mode: Integer ?= 1)
 
-#API
+#API  
 
 GET /test/laurier								controllers.DataEntry.test_laurier()
+GET /test/guillaume								controllers.DataEntry.test_guillaume()
 
 # API pour systeme
-#POST	/api/systems/new/:project_id			controllers.DataEntry.createSystem(project_id)
-#POST	/api/systems/:id						controllers.DataEntry.updateSystem(id)
-#GET	/api/systems/:id						controllers.DataEntry.getSystem(id)
+POST	/api/systems/new/:project_id			controllers.DataEntry.createSystem(project_id)
+POST	/api/systems/:id						controllers.DataEntry.updateSystem(id)
+GET		/api/systems/:id						controllers.DataEntry.getSystem(id)
 
 # API pour Process
 #POST	/api/process/new/:system_id				controllers.DataEntry.createProcess(project_id)

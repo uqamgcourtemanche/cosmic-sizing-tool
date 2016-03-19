@@ -19,20 +19,27 @@ public class DataEntry extends Controller {
 		return ok(mesure.render());
 	}
 	
-	public Result createSystem(String project_id)
+	public Result test_guillaume()
 	{
 		/*debug*/
 		try
 		{
 			models.Project p = new models.Project();
 			p.save();
+			createSystem("1");
 		}
 		catch(Exception e)
 		{
 			
 		}
+		
 		/*debug*/
 	
+		return ok(views.html.project.test_guillaume.render());
+	}
+	
+	public Result createSystem(String project_id)
+	{
 		try{
 			Long lId = Long.parseLong(project_id);
 			
@@ -43,8 +50,76 @@ public class DataEntry extends Controller {
 		}
 	}
 	
-    public Result edit(String id, int mode) {
+	public Result updateSystem(String id)
+	{
+		/* The values */
+		long lId;
+		String name = "";
+		String add = "";
+		String modify = "";
+		String delete = "";
+		String unknown = "";
+			
+		/* if Json present ... */
+		
+		
+		/* else we take the form elements */
+		
+		{
+			DynamicForm form = form().bindFromRequest();
+			name = form.get("name");
+			add = form.get("add");
+			modify = form.get("modify");
+			delete = form.get("delete");
+			unknown = form.get("unknown");
+		}
+		
+		boolean fAdd = add.equals("1");
+		boolean fModify = modify.equals("1");
+		boolean fDelete = delete.equals("1");
+		boolean fUnknown = unknown.equals("1");
+		
+		try
+		{
+			lId = Long.parseLong(id);
+		}
+		catch(Exception e)
+		{
+			return badRequest("Id is of an invalid value.");
+		}
+		
+		models.System sys = models.System.find.byId(lId);
+		if( sys == null )
+			return badRequest("Id does not correspond to any system");
+			
+		sys.setName(name);
+		sys.setAdd(fAdd);
+		sys.setModify(fModify);
+		sys.setDelete(fDelete);
+		sys.setUnknown(fUnknown);
+		sys.save();
+		
+		return ok(sys.toJson());
+	}
 	
+	public Result getSystem(String id)
+	{
+		/* The values */
+		long lId;
+		try
+		{
+			lId = Long.parseLong(id);
+		}
+		catch(Exception e)
+		{
+			return badRequest("Id is of an invalid value.");
+		}
+		
+		models.System sys = models.System.find.byId(lId);
+		return ok(sys.toJson());
+	}
+	
+    public Result edit(String id, int mode) {
 		try{
 			Long lId = Long.parseLong(id);
 			models.Project p = models.Project.find.byId(lId);
@@ -67,22 +142,6 @@ public class DataEntry extends Controller {
 			return internalServerError(e.getMessage());
 		}
     }
-		
-	public Result system(String id) {
-		try{
-			Long lId = Long.parseLong(id);
-			models.System s = models.System.find.byId(lId);
-			
-			if(s == null)
-				throw new RuntimeException("No system corresponds to id " + id);
-			
-			return ok(views.html.project.test_form_system.render(s));
-			
-		} catch(Exception e)
-		{
-			return internalServerError(e.getMessage());
-		}
-	}
     
 }
 
