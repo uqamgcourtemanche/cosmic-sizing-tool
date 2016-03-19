@@ -13,52 +13,84 @@
 <body ng-app="myApp">
 
 	<script type="text/ng-template"  id="dataGroups.html">
-		<div id="dataEntery">
-			<table class="table table-striped">
-				<tr>
-					<td><strong>processname de data.dataGroups</strong></td>
-					<td><strong>E</strong></td>
-					<td><strong>X</strong></td>
-					<td><strong>R</strong></td>
-					<td><strong>W</strong></td>
-					<td><strong>Total</strong></td>
-					<td><strong>Commentaire</strong></td>
-				</tr>
-				<tr ng-repeat="dataGroups in data.dataGroups">
-					<td>{{dataGroups.name}}</td>
-					<td>{{dataGroups.e}}</td>
-					<td>{{dataGroups.x}}</td>
-					<td>{{dataGroups.r}}</td>
-					<td>{{dataGroups.w}}</td>
-					<td>{{dataGroups.e + dataGroups.x + dataGroups.r + dataGroups.w}}</td>
-					<td>{{dataGroups.commentaire}}</td>
-				</tr>
-			</table>
-			<div >
-				<form class="form-inline col-xs-12">
+	<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12" style="padding-top: 20px;">
+					<button class="btn btn-primary" ng-click="data.collapsed=!data.collapsed" style="width: 200px;float: left;">
+						<h6 style="float: left;">{{data.name}}</h6>
+						<h6 style="float: left;" ng-show="data.dataGroups.length > 0 && !data.collapsed">+</h6>
+						<h6 style="float: left;" ng-show="data.dataGroups.length > 0 && data.collapsed">-</h6>
+					</button>
+					
+					
+					<div style="float:left; heigth: 10px; width:40%">
+						<input type="text" class="form-control" ng-model="data.name"/>
+					</div>
+					
+					<select>
+						<option>test1</option>
+						<option>test2</option>
+						<option>test3</option>
+						<option>test4</option>
+						<option>test5</option>
+					</select>
+					
 					<div>
-						<div class="form-group">
-							<label class="control-label">Groupe de donnees</label>
-							<div>
-								<input id="dataGroupEntery" type="text" class="form-control" ng-model="dataGroups.name">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label">Mouvement</label>
-							<div>
-								<input type="text" class="form-control" ng-model="dataGroups.movement">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label">Commentaire</label>
-							<div>
-								<input type="text" class="form-control" ng-model="dataGroups.commentaire"
-								ng-keydown="($event.keyCode == 13 || $event.keyCode == 9) && 
-								addDataGroups(dataGroups, data) && returnStartEditing($event)">
-							</div>
+						<label style="float:left">QR</label>
+						<input type="text" style="float:left"/>
+					</div>
+					<input type="text"/>
+					
+					
+						<div ng-show="data.collapsed">
+							<table class="table table-striped">
+							<tr>
+								<td><strong>Nom Processus</strong></td>
+								<td><strong>E</strong></td>
+								<td><strong>X</strong></td>
+								<td><strong>R</strong></td>
+								<td><strong>W</strong></td>
+								<td><strong>Total</strong></td>
+								<td><strong>Commentaire</strong></td>
+							</tr>
+							<tr ng-repeat="dataGroups in data.data_groups">
+								<td>{{dataGroups.name}}</td>
+								<td>{{dataGroups.entry}}</td>
+								<td>{{dataGroups.exit}}</td>
+								<td>{{dataGroups.read}}</td>
+								<td>{{dataGroups.write}}</td>
+								<td>{{dataGroups.e + dataGroups.x + dataGroups.r + dataGroups.w}}</td>
+								<td>{{dataGroups.commentaire}}</td>
+							</tr>
+						</table>
+						<div>
+							<form class="form-inline col-xs-12">
+								<div>
+									<div class="form-group">
+										<label class="control-label">Groupe de donnees</label>
+										<div>
+												<input id="dataGroupEntery" type="text" class="form-control" ng-model="dataGroups.name">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Mouvement</label>
+										<div>
+											<input type="text" class="form-control" ng-model="dataGroups.movement">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label">Commentaire</label>
+										<div>
+											<input type="text" class="form-control" ng-model="dataGroups.commentaire"
+											ng-keydown="($event.keyCode == 13 || $event.keyCode == 9) && 
+											addDataGroups(dataGroups, data)">
+										</div>
+									</div>
+								</div>
+							</form>						
 						</div>
 					</div>
-				</form>						
+				</div>
 			</div>
 		</div>
 	</script>
@@ -72,9 +104,12 @@
 						<div class="col-md-8">
 							<button class="btn btn-primary" ng-click="data.collapsed=!data.collapsed" style="width: 200px;float: left;">
 								<h6 style="float: left;">{{data.name}}</h6>
-								<h6 style="float: left;" ng-show="data.nodes.length > 0 && data.collapsed">+</h6>
-								<h6 style="float: left;" ng-show="data.nodes.length > 0 && !data.collapsed">-</h6>
+								<h6 style="float: left;" ng-show="data.process.length > 0 && data.collapsed">+</h6>
+								<h6 style="float: left;" ng-show="data.process.length > 0 && !data.collapsed">-</h6>
 							</button>
+							<div style="float:left; heigth: 10px; width:40%">
+								<input type="text" class="form-control" id="comment" ng-model="data.name"/>
+							</div>
 						</div>
 						
 						
@@ -83,32 +118,34 @@
 					    	<button class="btn btn-danger" ng-click="delete(data)" ng-show="data.nodes.length > 0">Delete</button>
 						</div>
 					</div>
-					<ul class="list-unstyled" ng-app="Application" ng-controller="TreeController">
-						<li ng-repeat="data in data.process" ng-include="'dataGroups.html'"></li>
-					</ul>
+					
+					<div ng-show="!data.collapsed">
+						<ul class="list-unstyled" ng-app="Application" ng-controller="TreeController">
+							<li ng-repeat="data in data.layers[0].process" ng-include="'dataGroups.html'"></li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
 	</script>
 	
 	
-	<script type="text/ng-template"  id="tree_item_renderer.html">
+	<script type="text/ng-template"  id="mesure.html">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12" style="padding-top: 20px;">
 					<div class="row">
-						<div class="col-md-8">
-							<button class="btn btn-primary" ng-click="data.collapsed=!data.collapsed" style="width: 200px;float: left;">
-								<h6 style="float: left;">{{data.name}}</h6>
+						<div class="col-md-10">
+							<button class="btn btn-primary" ng-click="data.collapsed=!data.collapsed" style="width: 100%;float: left;">
+								<h6 style="float: left;">Mesure</h6>
 								<h6 style="float: left;" ng-show="data.nodes.length > 0 && data.collapsed">+</h6>
 								<h6 style="float: left;" ng-show="data.nodes.length > 0 && !data.collapsed">-</h6>
 							</button>
 						</div>
 						
 						
-						<div class="col-md-4">
+						<div class="col-md-2">
 							<button class="btn btn-primary" ng-click="addSystem(data)">Add System</button>
-					    	<button class="btn btn-danger" ng-click="delete(data)" ng-show="data.nodes.length > 0">Delete</button>
 						</div>
 						
 						
@@ -124,7 +161,7 @@
 		</div>
 	</script>
 	<ul class="list-unstyled" ng-app="Application" ng-controller="TreeController">
-	    <li ng-repeat="data in mesure" ng-include="'tree_item_renderer.html'"></li>
+	    <li ng-repeat="data in mesure" ng-include="'mesure.html'"></li>
 	</ul>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

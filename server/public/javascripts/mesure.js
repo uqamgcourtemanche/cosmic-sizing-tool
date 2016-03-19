@@ -1,6 +1,6 @@
 var app = angular.module("myApp", []);
 
-app.controller("TreeController", ['$scope', function($scope) {
+app.controller("TreeController", function($scope, $http) {
 
     $scope.delete = function(data) {
         data.systems = [];
@@ -16,13 +16,36 @@ app.controller("TreeController", ['$scope', function($scope) {
 	$scope.addProcess = function(data){
         data.process.push({
             name: data.name, 
-            process:[]
+            dataGroups:[]
         });
 	};
 	
 	$scope.addDataGroups = function(data, parentProcess){
-		console.log(parentProcess);
-		parentProcess.dataGroups.push({
+		console.log(data);
+		
+		var params = {
+			name: data.name,
+			entry: !!(data.movement.toUpperCase().indexOf("E")>-1),
+			exit: !!(data.movement.toUpperCase().indexOf("X")>-1),
+			read: !!(data.movement.toUpperCase().indexOf("R")>-1),
+			write: !!(data.movement.toUpperCase().indexOf("W")>-1),		
+			comment: data.commentaire
+		};
+		
+		var config = {
+			method : "POST",
+			url : "/api/datagroups/new/" + parentProcess.id,
+			data : $.param(params),
+			headers : {'Content-Type':'application/x-www-form-urlencoded'}
+		};
+		
+		$http(config).then(function(resp){
+			console.log(resp.data)
+			
+			parentProcess.data_groups.push(resp.data);
+		}, function(){});
+		
+		/*parentProcess.data_groups.push({
 			name: data.name,
 			e: !!(data.movement.toUpperCase().indexOf("E")>-1),
 			x: !!(data.movement.toUpperCase().indexOf("X")>-1),
@@ -32,14 +55,10 @@ app.controller("TreeController", ['$scope', function($scope) {
         });
 		data.name = "";
 		data.movement = "";
-		data.commentaire = "";
+		data.commentaire = "";*/
 	};
-	$scope.returnStartEditing = function(e){
-		if(e.keyCode == 9)
-			event.preventDefault();
-		dataGroupEntery.focus();
-	}
-    $scope.mesure = [{
+	
+    $scope.mesure = [/*{
 		name: "mesureName",
 		systems : [{
 			name: "systemsName", 
@@ -62,6 +81,10 @@ app.controller("TreeController", ['$scope', function($scope) {
 				}]
 			}]
 		}]
-	}];
+	}*/];
+	$http.get("/api/systems").then(function(resp){
+		console.log(resp.data.systems)
+		$scope.mesure = [{systems: resp.data.systems}];
+	}, function(){});
 
-}]);
+});

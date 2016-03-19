@@ -6,7 +6,6 @@
 create table data_group (
   id                        integer primary key AUTOINCREMENT,
   name                      varchar(255) not null,
-  movement                  varchar(255) not null,
   comment                   varchar(255) not null,
   process                   integer not null,
   entry                     integer not null,
@@ -24,11 +23,13 @@ create table layer (
 create table process (
   id                        integer primary key AUTOINCREMENT,
   name                      varchar(255) not null,
+  quality_rating            varchar(1) not null,
   layer                     integer not null,
   f_add                     integer not null,
   f_modify                  integer not null,
   f_delete                  integer not null,
-  f_unknown                 integer not null)
+  f_unknown                 integer not null,
+  f_template                integer not null)
 ;
 
 create table project (
