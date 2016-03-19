@@ -52,7 +52,7 @@ public class Layer extends Model implements JsonSerializable{
 	
 	public List<Process> getProcess()
 	{
-		return Process.find.where().eq("layer", id).findList();
+		return Process.find.where().eq("layer", id).eq("fTemplate", 0).findList();
 	}
 	
 	public long getId(){return id;}

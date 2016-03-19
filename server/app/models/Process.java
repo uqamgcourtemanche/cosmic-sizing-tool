@@ -35,8 +35,10 @@ public class Process extends Model implements JsonSerializable{
 	private int fDelete;
 	
 	@Column(nullable = false)
-	private int fUnknown;;
+	private int fUnknown;
 
+	@Column(nullable = false)
+	private int fTemplate;
 	
     public Process(long parentId) {
         id=null;
@@ -47,6 +49,19 @@ public class Process extends Model implements JsonSerializable{
 		fModify=0;
 		fDelete=0;
 		fUnknown=0;
+		fTemplate=0;
+    }
+	
+	public Process(long parentId, boolean isTemplate) {
+        id=null;
+		qualityRating = "";
+		name="";
+		layer=parentId;
+		fAdd=0;
+		fModify=0;
+		fDelete=0;
+		fUnknown=0;
+		fTemplate = isTemplate ? 1 : 0;
     }
 	
 	@Override

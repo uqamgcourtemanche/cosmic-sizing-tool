@@ -324,22 +324,22 @@ public class DataEntry extends Controller {
 		models.DataGroup dg = new models.DataGroup(lId);
 		dg.save();
 		
+		DynamicForm form = form().bindFromRequest();
+		if(form.get("name") != null)
+			updateDataGroupWithForm(dg, form);
+		
 		return ok(dg.toJson());
 	}
 	
-	public Result updateDataGroup(String id)
+	private void updateDataGroupWithForm(models.DataGroup dg, DynamicForm form)
 	{
-		/* The values */
-		long lId;
 		String name = "";
 		String comment = "";
 		String entry = "";
 		String exit = "";
 		String read = "";
 		String write = "";
-			
-		DynamicForm form = form().bindFromRequest();
-			
+		
 		/* if Json present ... */
 		if( form.get("json") != null)
 		{
@@ -367,6 +367,20 @@ public class DataEntry extends Controller {
 		boolean fRead = read != null &&  read.equals("1");
 		boolean fWrite = write != null &&  write.equals("1");
 		
+		dg.setName(name);
+		dg.setComment(comment);
+		dg.setEntry(fEntry);
+		dg.setExit(fExit);
+		dg.setRead(fRead);
+		dg.setWrite(fWrite);
+		dg.save();
+	}
+	
+	public Result updateDataGroup(String id)
+	{
+		long lId;			
+		DynamicForm form = form().bindFromRequest();
+		
 		try
 		{
 			lId = Long.parseLong(id);
@@ -380,13 +394,7 @@ public class DataEntry extends Controller {
 		if( dg == null )
 			return badRequest("Id does not correspond to any DataGroup");
 			
-		dg.setName(name);
-		dg.setComment(comment);
-		dg.setEntry(fEntry);
-		dg.setExit(fExit);
-		dg.setRead(fRead);
-		dg.setWrite(fWrite);
-		dg.save();
+		updateDataGroupWithForm(dg, form);
 		
 		return ok(dg.toJson());
 	}
