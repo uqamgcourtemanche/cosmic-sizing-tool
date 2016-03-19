@@ -8,6 +8,7 @@ import java.util.*;
 import models.*;
 import play.data.Form;
 import static play.data.Form.*;
+import util.*;
 
 public class DataEntry extends Controller {
 
@@ -117,6 +118,16 @@ public class DataEntry extends Controller {
 		
 		models.System sys = models.System.find.byId(lId);
 		return ok(sys.toJson());
+	}
+	
+	public Result getAllSystems()
+	{
+		List<models.System> sys = models.System.find.all();
+		
+		JsonBuilder json = new JsonBuilder();
+		json.add("systems", sys);
+		
+		return ok(json.toString());
 	}
 	
     public Result edit(String id, int mode) {

@@ -23,6 +23,7 @@ GET /test/guillaume								controllers.DataEntry.test_guillaume()
 POST	/api/systems/new/:project_id			controllers.DataEntry.createSystem(project_id)
 POST	/api/systems/:id						controllers.DataEntry.updateSystem(id)
 GET		/api/systems/:id						controllers.DataEntry.getSystem(id)
+GET		/api/systems							controllers.DataEntry.getAllSystems()
 
 # API pour Process
 #POST	/api/process/new/:system_id				controllers.DataEntry.createProcess(project_id)
