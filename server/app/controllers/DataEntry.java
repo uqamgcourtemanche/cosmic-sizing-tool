@@ -47,7 +47,13 @@ public class DataEntry extends Controller {
 		try{
 			Long lId = Long.parseLong(project_id);
 			
-			return ok(models.System.createForParentId(lId).toJson());
+			models.System sys = models.System.createForParentId(lId);
+			
+			DynamicForm form = form().bindFromRequest();
+			if(form.get("name") != null)
+				updateSystemWithForm(sys, form);
+			
+			return ok(sys.toJson());
 		} catch(Exception e)
 		{
 			return internalServerError(e.getMessage());
@@ -58,14 +64,34 @@ public class DataEntry extends Controller {
 	{
 		/* The values */
 		long lId;
+		DynamicForm form = form().bindFromRequest();
+		
+		try
+		{
+			lId = Long.parseLong(id);
+		}
+		catch(Exception e)
+		{
+			return badRequest("Id is of an invalid value.");
+		}
+		
+		models.System sys = models.System.find.byId(lId);
+		if( sys == null )
+			return badRequest("Id does not correspond to any system");
+			
+		updateSystemWithForm(sys, form);
+		
+		return ok(sys.toJson());
+	}
+	
+	private void updateSystemWithForm(models.System sys, DynamicForm form)
+	{
 		String name = "";
 		String add = "";
 		String modify = "";
 		String delete = "";
 		String unknown = "";
-			
-		DynamicForm form = form().bindFromRequest();
-		
+	
 		/* if Json present ... */
 		if( form.get("json") != null)
 		{
@@ -90,28 +116,13 @@ public class DataEntry extends Controller {
 		boolean fModify = modify != null && modify.equals("true");
 		boolean fDelete = delete != null && delete.equals("true");
 		boolean fUnknown = unknown != null && unknown.equals("true");
-		
-		try
-		{
-			lId = Long.parseLong(id);
-		}
-		catch(Exception e)
-		{
-			return badRequest("Id is of an invalid value.");
-		}
-		
-		models.System sys = models.System.find.byId(lId);
-		if( sys == null )
-			return badRequest("Id does not correspond to any system");
-			
+	
 		sys.setName(name);
 		sys.setAdd(fAdd);
 		sys.setModify(fModify);
 		sys.setDelete(fDelete);
 		sys.setUnknown(fUnknown);
 		sys.save();
-		
-		return ok(sys.toJson());
 	}
 	
 	public Result getSystem(String id)
