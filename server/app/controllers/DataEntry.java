@@ -9,6 +9,9 @@ import models.*;
 import play.data.Form;
 import static play.data.Form.*;
 import util.*;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.*;
+import play.libs.Json;
 
 public class DataEntry extends Controller {
 
@@ -61,13 +64,21 @@ public class DataEntry extends Controller {
 		String delete = "";
 		String unknown = "";
 			
+		DynamicForm form = form().bindFromRequest();
+		
 		/* if Json present ... */
-		
-		
-		/* else we take the form elements */
-		
+		if( form.get("json") != null)
 		{
-			DynamicForm form = form().bindFromRequest();
+			JsonNode json = Json.parse(form.get("json"));
+			name = json.findPath("name").textValue();
+			add = json.findPath("add").textValue();
+			modify = json.findPath("modify").textValue();
+			delete = json.findPath("delete").textValue();
+			unknown = json.findPath("unknown").textValue();
+		}
+		/* else we take the form elements */
+		else
+		{
 			name = form.get("name");
 			add = form.get("add");
 			modify = form.get("modify");
@@ -130,6 +141,29 @@ public class DataEntry extends Controller {
 		return ok(json.toString());
 	}
 	
+	public Result deleteSystem(String id)
+	{
+		long lId;
+		try
+		{
+			lId = Long.parseLong(id);
+		}
+		catch(Exception e)
+		{
+			return badRequest("Id is of an invalid value.");
+		}
+	
+		models.System sys = models.System.find.byId(lId);
+		
+		if( sys == null )
+			return badRequest("Invalid system id");
+			
+		String res = sys.toJson();
+		sys.delete();
+		
+		return ok(res);
+	}
+	
 	public Result createProcess(String parentId)
 	{
 		Long lId;
@@ -166,13 +200,21 @@ public class DataEntry extends Controller {
 		String delete = "";
 		String unknown = "";
 			
+		DynamicForm form = form().bindFromRequest();
+			
 		/* if Json present ... */
-		
-		
-		/* else we take the form elements */
-		
+		if( form.get("json") != null)
 		{
-			DynamicForm form = form().bindFromRequest();
+			JsonNode json = Json.parse(form.get("json"));
+			name = json.findPath("name").textValue();
+			add = json.findPath("add").textValue();
+			modify = json.findPath("modify").textValue();
+			delete = json.findPath("delete").textValue();
+			unknown = json.findPath("unknown").textValue();
+		}
+		/* else we take the form elements */
+		else
+		{
 			name = form.get("name");
 			add = form.get("add");
 			modify = form.get("modify");
@@ -235,6 +277,29 @@ public class DataEntry extends Controller {
 		return ok(json.toString());
 	}
 	
+	public Result deleteProcess(String id)
+	{
+		long lId;
+		try
+		{
+			lId = Long.parseLong(id);
+		}
+		catch(Exception e)
+		{
+			return badRequest("Id is of an invalid value.");
+		}
+	
+		models.Process proc = models.Process.find.byId(lId);
+		
+		if( proc == null )
+			return badRequest("Invalid process id");
+			
+		String res = proc.toJson();
+		proc.delete();
+		
+		return ok(res);
+	}
+	
 	public Result createDataGroup(String parentId)
 	{
 		Long lId;
@@ -270,13 +335,23 @@ public class DataEntry extends Controller {
 		String read = "";
 		String write = "";
 			
+		DynamicForm form = form().bindFromRequest();
+			
 		/* if Json present ... */
-		
-		
-		/* else we take the form elements */
-		
+		if( form.get("json") != null)
 		{
-			DynamicForm form = form().bindFromRequest();
+			JsonNode json = Json.parse(form.get("json"));
+			name = json.findPath("name").textValue();
+			movement = json.findPath("movement").textValue();
+			comment = json.findPath("comment").textValue();
+			entry = json.findPath("entry").textValue();
+			exit = json.findPath("exit").textValue();
+			read = json.findPath("read").textValue();
+			write = json.findPath("write").textValue();
+		}
+		/* else we take the form elements */
+		else
+		{
 			name = form.get("name");
 			movement = form.get("movement");
 			comment = form.get("comment");
@@ -341,6 +416,29 @@ public class DataEntry extends Controller {
 		json.add("data_groups", dgs);
 		
 		return ok(json.toString());
+	}
+	
+	public Result deleteDataGroup(String id)
+	{
+		long lId;
+		try
+		{
+			lId = Long.parseLong(id);
+		}
+		catch(Exception e)
+		{
+			return badRequest("Id is of an invalid value.");
+		}
+	
+		models.DataGroup dg = models.DataGroup.find.byId(lId);
+		
+		if( dg == null )
+			return badRequest("Invalid data group id");
+			
+		String res = dg.toJson();
+		dg.delete();
+		
+		return ok(res);
 	}
 	
     public Result edit(String id, int mode) {

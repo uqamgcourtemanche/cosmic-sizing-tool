@@ -41,6 +41,15 @@ public class Layer extends Model implements JsonSerializable{
 		return json.toString();
 	}
 	
+	@Override
+	public void delete()
+	{
+		List<Process> processes = getProcess();
+		for(Process process : processes) process.delete();
+		
+		super.delete();
+	}
+	
 	public List<Process> getProcess()
 	{
 		return Process.find.where().eq("layer", id).findList();

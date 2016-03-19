@@ -58,6 +58,15 @@ public class System extends Model implements JsonSerializable{
 	}
 	
 	@Override
+	public void delete()
+	{
+		List<Layer> layers = getLayers();
+		for(Layer layer : layers) layer.delete();
+		
+		super.delete();
+	}
+	
+	@Override
 	public String toJson()
 	{
 		JsonBuilder json = new JsonBuilder();

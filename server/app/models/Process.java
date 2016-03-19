@@ -61,6 +61,15 @@ public class Process extends Model implements JsonSerializable{
 		return json.toString();
 	}
 	
+	@Override
+	public void delete()
+	{
+		List<DataGroup> dgs = getDataGroup();
+		for(DataGroup dg : dgs) dg.delete();
+		
+		super.delete();
+	}
+	
 	public long getId(){return id;}
 	public String getName(){return name;}
 	public void setName(String name){this.name = name;}

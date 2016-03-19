@@ -47,4 +47,16 @@
 		
 		<input type="submit"/>
 	</form>
+	
+	<form action="/api/systems/delete/5" method="post">
+		delete system 5
+		<input type="submit"/>
+	</form>
+	
+	<form action="/api/systems/1" method="post">
+		update ssytem avec json
+		
+		<input type="hidden" name="json" value='{"name":"test_name_json", "add" : "1", "delete" : "1", "modify" : "1", "unknown" : "1" }'/>
+		<input type="submit"/>
+	</form>
 }
