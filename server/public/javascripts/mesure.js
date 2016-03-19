@@ -29,7 +29,7 @@ app.controller("TreeController", function($scope, $http) {
 			exit: !!(data.movement.toUpperCase().indexOf("X")>-1),
 			read: !!(data.movement.toUpperCase().indexOf("R")>-1),
 			write: !!(data.movement.toUpperCase().indexOf("W")>-1),		
-			comment: data.commentaire
+			comment: data.comment
 		};
 		
 		var config = {
@@ -58,30 +58,25 @@ app.controller("TreeController", function($scope, $http) {
 		data.commentaire = "";*/
 	};
 	
-    $scope.mesure = [/*{
-		name: "mesureName",
-		systems : [{
-			name: "systemsName", 
-			process: [{
-				name:"processName",
-				dataGroups: [{
-					name: "dataGroupsName1",
-					e: true,
-					x: true,
-					r: false,
-					w: true,
-					commentaire: "testcommentaire"
-				},{
-					name: "dataGroupsName2",
-					e: false,
-					x: false,
-					r: false,
-					w: false,
-					commentaire: "testcommentaire2"
-				}]
-			}]
-		}]
-	}*/];
+	$scope.deleteDataGroup = function(dataGroups, parentProcess)
+	{
+		var config = {
+			method : "POST",
+			url : "/api/datagroups/delete/" + dataGroups.id
+		};
+		
+		$http(config).then(function(resp){
+			for(var i=0; i < parentProcess.data_groups.length; ++i)
+			{
+				if(parentProcess.data_groups[i].id == resp.data.id)
+				{
+					parentProcess.data_groups.splice(i, 1);
+				}
+			}
+		}, function(){});
+	};
+	
+    $scope.mesure = [];
 	$http.get("/api/systems").then(function(resp){
 		console.log(resp.data.systems)
 		$scope.mesure = [{systems: resp.data.systems}];

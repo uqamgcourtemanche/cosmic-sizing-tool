@@ -17,7 +17,7 @@
 	<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12" style="padding-top: 20px;">
-					<button class="btn btn-primary" ng-click="data.collapsed=!data.collapsed" style="width: 200px;float: left;">
+					<button class="btn btn-info" ng-click="data.collapsed=!data.collapsed" style="width: 200px;float: left; padding:0px 10px 0px 10px;">
 						<h6 style="float: left;">Processus</h6>
 						<h6 style="float: left;" ng-show="data.dataGroups.length > 0 && !data.collapsed">+</h6>
 						<h6 style="float: left;" ng-show="data.dataGroups.length > 0 && data.collapsed">-</h6>
@@ -32,13 +32,14 @@
 					<div ng-show="data.collapsed">
 						<table class="table table-striped">
 							<tr>
-								<td><strong>Groupe de donnees</strong></td>
-								<td><strong>E</strong></td>
-								<td><strong>X</strong></td>
-								<td><strong>R</strong></td>
-								<td><strong>W</strong></td>
-								<td><strong>Total</strong></td>
-								<td><strong>Commentaire</strong></td>
+								<td width="35%"><strong>Groupe de donnees</strong></td>
+								<td width="5%"><strong>E</strong></td>
+								<td width="5%"><strong>X</strong></td>
+								<td width="5%"><strong>R</strong></td>
+								<td width="5%"><strong>W</strong></td>
+								<td width="10%"><strong>Total</strong></td>
+								<td width="30%"><strong>Commentaire</strong></td>
+								<td width="5%">&nbsp;</td>
 							</tr>
 							<tr ng-repeat="dataGroups in data.data_groups">
 								<td>{{dataGroups.name}}</td>
@@ -48,6 +49,7 @@
 								<td>{{dataGroups.write}}</td>
 								<td>{{dataGroups.entry  + dataGroups.exit + dataGroups.read + dataGroups.write}}</td>
 								<td>{{dataGroups.comment}}</td>
+								<td><button class="btn btn-default" ng-click="deleteDataGroup(dataGroups, data)">Delete</button></td>
 							</tr>
 						</table>
 						<div>
@@ -89,7 +91,7 @@
 				<div class="col-md-12" style="padding-top: 20px;">
 					<div class="row">
 						<div class="col-md-8">
-							<button class="btn btn-primary" ng-click="data.collapsed=!data.collapsed" style="width: 200px;float: left;">
+							<button class="btn btn-success" ng-click="data.collapsed=!data.collapsed" style="width: 200px;float: left; padding:0px 10px 0px 10px;">
 								<h6 style="float: left;">Systeme</h6>
 								<h6 style="float: left;" ng-show="data.process.length > 0 && data.collapsed">+</h6>
 								<h6 style="float: left;" ng-show="data.process.length > 0 && !data.collapsed">-</h6>
@@ -101,7 +103,7 @@
 						
 						
 						<div class="col-md-4">
-							<button class="btn btn-primary" ng-click="addProcess(data)">Add System</button>
+							<button class="btn btn-default" ng-click="addProcess(data)">Add System</button>
 					    	<button class="btn btn-danger" ng-click="delete(data)" ng-show="data.nodes.length > 0">Delete</button>
 						</div>
 					</div>
@@ -123,7 +125,7 @@
 				<div class="col-md-12" style="padding-top: 20px;">
 					<div class="row">
 						<div class="col-md-10">
-							<button class="btn btn-primary" ng-click="data.collapsed=!data.collapsed" style="width: 100%;float: left;">
+							<button class="btn btn-primary" ng-click="data.collapsed=!data.collapsed" style="width: 100%;float: left; padding:0px 10px 0px 10px;">
 								<h6 style="float: left;">Mesure</h6>
 								<h6 style="float: left;" ng-show="data.nodes.length > 0 && data.collapsed">+</h6>
 								<h6 style="float: left;" ng-show="data.nodes.length > 0 && !data.collapsed">-</h6>
@@ -132,7 +134,7 @@
 						
 						
 						<div class="col-md-2">
-							<button class="btn btn-primary" ng-click="addSystem(data)">Add System</button>
+							<button class="btn btn-default" ng-click="addSystem(data)">Add System</button>
 						</div>
 						
 						
