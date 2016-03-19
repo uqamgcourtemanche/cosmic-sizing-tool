@@ -1,0 +1,34 @@
+body {
+	padding: 10px;
+}
+
+.btn{
+	margin-right:10px;		
+}
+
+.glyphicon{
+	padding-right:10px;
+}
+
+.mesureProjet{
+	padding:25px;
+	display: flex;
+}
+
+.mesureForm input{
+	width:450px;
+}
+
+.form-group label{
+	color:#333;
+}
+
+.mesureProjetType{
+	margin: 25px;
+}
+
+.mesureProjetType .mesureTxtRotation li{
+	transform: rotate(-90deg);
+	padding:0px;
+	width:30px;
+}

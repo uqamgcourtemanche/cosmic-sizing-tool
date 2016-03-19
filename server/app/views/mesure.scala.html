@@ -9,6 +9,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 	<script src="/assets/javascripts/mesure.js"></script>
 	<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/stylesheets/theme.css" rel="stylesheet">
 </head>
 <body ng-app="myApp">
 
@@ -17,35 +18,21 @@
 			<div class="row">
 				<div class="col-md-12" style="padding-top: 20px;">
 					<button class="btn btn-primary" ng-click="data.collapsed=!data.collapsed" style="width: 200px;float: left;">
-						<h6 style="float: left;">{{data.name}}</h6>
+						<h6 style="float: left;">Processus</h6>
 						<h6 style="float: left;" ng-show="data.dataGroups.length > 0 && !data.collapsed">+</h6>
 						<h6 style="float: left;" ng-show="data.dataGroups.length > 0 && data.collapsed">-</h6>
 					</button>
 					
+					<form class="form-inline" role="form">
+						<div class="form-group">
+							<input type="text" class="form-control" ng-model="data.name"></input>
+						</div>
+					</form>
 					
-					<div style="float:left; heigth: 10px; width:40%">
-						<input type="text" class="form-control" ng-model="data.name"/>
-					</div>
-					
-					<select>
-						<option>test1</option>
-						<option>test2</option>
-						<option>test3</option>
-						<option>test4</option>
-						<option>test5</option>
-					</select>
-					
-					<div>
-						<label style="float:left">QR</label>
-						<input type="text" style="float:left"/>
-					</div>
-					<input type="text"/>
-					
-					
-						<div ng-show="data.collapsed">
-							<table class="table table-striped">
+					<div ng-show="data.collapsed">
+						<table class="table table-striped">
 							<tr>
-								<td><strong>Nom Processus</strong></td>
+								<td><strong>Groupe de donnees</strong></td>
 								<td><strong>E</strong></td>
 								<td><strong>X</strong></td>
 								<td><strong>R</strong></td>
@@ -59,8 +46,8 @@
 								<td>{{dataGroups.exit}}</td>
 								<td>{{dataGroups.read}}</td>
 								<td>{{dataGroups.write}}</td>
-								<td>{{dataGroups.e + dataGroups.x + dataGroups.r + dataGroups.w}}</td>
-								<td>{{dataGroups.commentaire}}</td>
+								<td>{{dataGroups.entry  + dataGroups.exit + dataGroups.read + dataGroups.write}}</td>
+								<td>{{dataGroups.comment}}</td>
 							</tr>
 						</table>
 						<div>
@@ -81,7 +68,7 @@
 									<div class="form-group">
 										<label class="control-label">Commentaire</label>
 										<div>
-											<input type="text" class="form-control" ng-model="dataGroups.commentaire"
+											<input type="text" class="form-control" ng-model="dataGroups.comment"
 											ng-keydown="($event.keyCode == 13 || $event.keyCode == 9) && 
 											addDataGroups(dataGroups, data)">
 										</div>
@@ -103,7 +90,7 @@
 					<div class="row">
 						<div class="col-md-8">
 							<button class="btn btn-primary" ng-click="data.collapsed=!data.collapsed" style="width: 200px;float: left;">
-								<h6 style="float: left;">{{data.name}}</h6>
+								<h6 style="float: left;">Systeme</h6>
 								<h6 style="float: left;" ng-show="data.process.length > 0 && data.collapsed">+</h6>
 								<h6 style="float: left;" ng-show="data.process.length > 0 && !data.collapsed">-</h6>
 							</button>
@@ -160,6 +147,60 @@
 			</div>
 		</div>
 	</script>
+	<div class="alert alert-danger alert-dismissible text-center" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span ara-hidden="true">&times;</span></button>
+		<strong>Erreur!</strong> Message d'erreur / confirmation
+	</div>
+	
+	<div>
+		<ol class="breadcrumb" style="background-color:#FFFFFF;">
+			<li><span class="glyphicon glyphicon glyphicon glyphicon-briefcase" aria-hidden="true"></span><a href="#">Organisation Nom</a></li>
+			<li><a href="#"><strong>Projet Nom</strong></a></li>
+
+			<button class="btn btn-default pull-right" type="button">
+				<span class="glyphicon glyphicon glyphicon-transfer" aria-hidden="true"></span>Processus
+				<span class="badge">147</span></button>
+			
+			<button class="btn btn-default pull-right" type="button">
+				<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>Couches
+				<span class="badge">23</span></button>
+			
+			<button class="btn btn-default pull-right" type="button">
+				<span class="glyphicon glyphicon glyphicon-list-alt" aria-hidden="true"></span>Systemes  
+				<span class="badge">5</span></button>
+		</ol>
+
+	</div>
+	
+	<div class="panel panel-default mesureProjet">
+		<form>
+			<div class="pull-left">
+				<div class="form-group mesureForm">
+					<label for="organisationNom">Organisation</label>
+					<input type="text" class="form-control" id="organisationNom" placeholder="Nom de l'organisation">
+				</div>
+				<div class="form-group mesureForm pull-left">
+					<label for="projetNom">Projet</label>
+					<input type="text" class="form-control" id="projetNom" placeholder="Nom du projet">
+
+				</div>
+				<div class="pull-right checkbox mesureProjetType">
+					<ul class="list-inline mesureTxtRotation">
+						<li><label><input type = "checkbox">D&eacute;veloppement</label></li>
+						<li><label><input type = "checkbox">Red&eacute;veloppement</label></li>
+						<li><label><input type = "checkbox">Am&eacute;lioration</label></li>
+					</ul>	
+				</div>
+				<div class="checkbox">
+					<label><input type = "checkbox">Couches</label>
+				</div>
+			</div>
+			
+			
+
+	   </form>
+	</div>
+	
 	<ul class="list-unstyled" ng-app="Application" ng-controller="TreeController">
 	    <li ng-repeat="data in mesure" ng-include="'mesure.html'"></li>
 	</ul>
